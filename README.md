@@ -6,7 +6,7 @@ Thôn Mê Linh 1, xã Bắc Tiên Hưng, tỉnh Hưng Yên.
 Link: https://thaiphuc22.github.io/thanhnga-trungduc/
 
 - Mời đích danh: thêm `?to=Tên khách` vào cuối link.
-- Xác nhận tham dự & sổ lưu bút: dùng chung Google Sheet với thiệp nhà trai
+- Xác nhận tham dự & sổ lưu bút (lời chúc lưu vào cột "Lời nhắn", loại "Lưu bút"): dùng chung Google Sheet với thiệp nhà trai
   (xem hướng dẫn và mã Apps Script ở repo `trungduc-thanhnga`). Dán link Web App vào
   dòng `var RSVP_URL = '';` trong `index.html`.
-- Nhạc nền: `music/canon-in-d.mp3` — Canon in D, The Strolling Strings, United States Air Force Band (public domain).
+- Nhạc nền: `music/mot-doi.mp3` (bài "Một Đời", file do cô dâu chú rể cung cấp).
