@@ -777,12 +777,9 @@
   document.getElementById('rPrev').onclick = function(){ hold(); goTo(cur - 1); };
   document.getElementById('rNext').onclick = function(){ hold(); next(); };
 
-  // Tự trượt liên tục; tạm dừng khi khách chạm (4 giây), khi album ra khỏi màn hình, khi xem ảnh lớn, khi chuyển ứng dụng
+  // Tự trượt liên tục (cả khi máy bật chế độ giảm chuyển động, vì đây là yêu cầu của cô dâu chú rể); tạm dừng khi khách chạm (4 giây), khi album ra khỏi màn hình, khi xem ảnh lớn, khi chuyển ứng dụng
   var started = false, inView = false, holdUntil = 0, raf = 0, waitT = 0, vel = 0, last = 0, gliding = false;
-  var hover = false;   // trên máy tính: dừng khi rê chuột lên album để khách bấm chọn ảnh
-  function canGlide(){ return started && !reduce && inView && !lbOpen && !document.hidden && !drag && !hover; }
-  ring.addEventListener('pointerenter', function(e){ if (e.pointerType === 'mouse') { hover = true; kick(); } });
-  ring.addEventListener('pointerleave', function(e){ if (e.pointerType === 'mouse') { hover = false; holdUntil = Math.max(holdUntil, Date.now() + 1300); kick(); } });
+  function canGlide(){ return started && inView && !lbOpen && !document.hidden && !drag; }
   function stopGlide(){
     if (raf) cancelAnimationFrame(raf);
     raf = 0; vel = 0;
@@ -808,7 +805,7 @@
   function restartTimer(){ kick(); }
   function hold(){ holdUntil = Date.now() + 4000; stopGlide(); kick(); }
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function(es){ inView = es[0].isIntersecting; kick(); }, { threshold: 0.4 }).observe(ring);
+    new IntersectionObserver(function(es){ inView = es[0].isIntersecting; kick(); }, { threshold: 0.2 }).observe(ring);
   } else inView = true;
   document.addEventListener('visibilitychange', kick);
   function albumStart(){ started = true; kick(); }
