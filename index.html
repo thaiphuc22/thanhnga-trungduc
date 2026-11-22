@@ -62,6 +62,28 @@
   .btn.line{background:#fff;color:var(--sage);border:1px solid var(--sage);box-shadow:none}
   .env .btn{margin-top:20px}
 
+  /* ---------- Hiệu ứng mở thiệp ---------- */
+  .badge{position:relative}
+  .badge::before,.badge::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid var(--sage-l);opacity:0;pointer-events:none}
+  .badge{animation:breathe 2.4s ease-in-out infinite}
+  @keyframes breathe{50%{box-shadow:0 8px 18px rgba(74,101,48,.35),0 0 0 8px rgba(143,169,106,.18)}}
+  .cover.opening .badge{animation:thump .55s cubic-bezier(.3,1.6,.5,1)}
+  .cover.opening .badge::before{animation:ripple .9s ease-out}
+  .cover.opening .badge::after{animation:ripple .9s ease-out .18s}
+  @keyframes thump{40%{transform:scale(1.22)}100%{transform:scale(1)}}
+  @keyframes ripple{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(2.6)}}
+  .env .calla{transition:transform 1s cubic-bezier(.4,0,.2,1),opacity .9s ease}
+  .cover.opening .env .calla.tl{transform:translate(-80px,-60px) rotate(-70deg);opacity:0}
+  .cover.opening .env .calla.br{transform:translate(80px,70px) rotate(220deg);opacity:0}
+  .cover.opening .env{animation:lift 1.15s cubic-bezier(.55,0,.3,1) .3s forwards}
+  @keyframes lift{0%{transform:none;opacity:1}30%{transform:translateY(10px) scale(.985);opacity:1}100%{transform:translateY(-75%) scale(.9);opacity:0}}
+  .cover{transition:opacity .8s ease,visibility .8s}
+  .spark{position:fixed;left:0;top:0;z-index:70;pointer-events:none;will-change:transform,opacity;line-height:1}
+  .spark svg{display:block;width:100%;height:100%}
+  @media (prefers-reduced-motion:reduce){
+    .badge,.cover.opening .badge,.cover.opening .badge::before,.cover.opening .badge::after,.cover.opening .env{animation:none}
+  }
+
   /* ---------- Hero ---------- */
   .hero{padding:30px 0 0;min-height:600px}
   .hero .calla.top{top:-24px;right:-26px;width:190px;transform:rotate(14deg)}
@@ -102,39 +124,28 @@
   .cere .yr{font:600 18px var(--display);letter-spacing:.4em;margin-top:6px}
   .cere .lunar{font-style:italic;color:var(--muted);font-size:14px;margin-top:8px}
 
-  /* ---------- Album: băng chuyền có ảnh hai bên ---------- */
-  .album{padding-left:0;padding-right:0}
+  /* ---------- Album: vòng xoay 3D ---------- */
+  .album{padding-left:0;padding-right:0;overflow:hidden}
   .album .title{padding:0 22px}
-  .car{position:relative;margin-top:24px}
-  .track{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;padding:10px 14% 18px;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;transition:opacity .35s}
-  .track::-webkit-scrollbar{display:none}
-  .track.jump{opacity:0}
-  .slide{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;border:0;padding:0;background:none;cursor:pointer;transform-origin:50% 50%;will-change:transform,opacity;-webkit-tap-highlight-color:transparent}
-  .slide .fr{display:block;position:relative;aspect-ratio:2/3;overflow:hidden;border-radius:6px;background:var(--leaf) center/cover no-repeat;border:5px solid #fff;box-shadow:0 14px 30px rgba(47,56,38,.22)}
-  .slide img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease;transform-origin:50% 40%}
-  .slide img.ok{opacity:1}
-  .slide.on img.ok{animation:kb 6s ease-out forwards}
-  @keyframes kb{to{transform:scale(1.07)}}
-  .slide:focus-visible{outline:none}
-  .slide:focus-visible .fr{outline:2px solid var(--sage);outline-offset:3px}
-  .zoomhint{position:absolute;right:10px;bottom:10px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
-  .zoomhint svg{width:15px;height:15px;fill:var(--sage-d)}
-  .slide.on .zoomhint{opacity:1}
-  .bar{height:2px;background:var(--leaf);margin:0 auto;width:62%;border-radius:2px;overflow:hidden}
-  .bar i{display:block;height:100%;width:100%;background:var(--sage);transform:scaleX(0);transform-origin:left}
-  .bar.run i{animation:prog var(--dur,4.5s) linear forwards}
-  @keyframes prog{to{transform:scaleX(1)}}
-  .dots{display:flex;justify-content:center;gap:0;margin:12px auto 0;padding:0 8px}
-  .dots button{width:17px;height:26px;flex:0 0 17px;border:0;background:none;padding:0;cursor:pointer;color:var(--sage-l);opacity:.45;display:flex;align-items:center;justify-content:center;transition:opacity .3s,transform .3s}
-  .dots button svg{width:9px;height:9px;fill:currentColor}
-  .dots button.on{opacity:1;color:var(--sage);transform:scale(1.55)}
-  .dots button:focus-visible{outline:2px solid var(--sage);border-radius:4px}
-  .count{margin-top:6px;font:600 14px var(--display);letter-spacing:.2em;color:var(--muted)}
+  .ring-wrap{position:relative;margin-top:22px}
+  .ring{position:relative;height:360px;display:flex;align-items:center;justify-content:center;perspective:1000px;touch-action:pan-y;user-select:none;-webkit-user-select:none;outline:none}
+  .ring:focus-visible{outline:2px solid var(--sage);outline-offset:4px;border-radius:12px}
+  .c3{position:absolute;height:92%;aspect-ratio:2/3;border-radius:16px;overflow:hidden;cursor:pointer;background:var(--leaf) center/cover no-repeat;box-shadow:0 18px 36px rgba(47,56,38,.28);transition:transform 1.1s cubic-bezier(.45,.05,.25,1),opacity 1.1s ease;backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform,opacity;-webkit-tap-highlight-color:transparent}
+  .c3 img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s;pointer-events:none}
+  .c3 img.ok{opacity:1}
+  .c3.on{box-shadow:0 0 0 2px rgba(255,255,255,.5),0 22px 44px rgba(47,56,38,.34)}
+  .c3.on::after{content:"";position:absolute;inset:0;border-radius:16px;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.28) 50%,transparent 65%);background-size:250% 100%;animation:sheen 1.6s ease .5s 1 both;pointer-events:none}
+  @keyframes sheen{from{background-position:120% 0}to{background-position:-60% 0}}
+  .ring.drag .c3{transition:none}
+  .ring-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:200;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.75);color:var(--sage-d);font-size:20px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.12);display:none}
+  .ring-nav.p{left:12px}.ring-nav.n{right:12px}
+  @media (hover:hover) and (pointer:fine){ .ring-nav{display:block} }
+  .count{margin-top:12px;font:600 14px var(--display);letter-spacing:.18em;color:var(--muted);font-variant-numeric:lining-nums tabular-nums}
   .count b{color:var(--sage);font-size:18px}
   .swipe-hint{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:4px}
 
   /* ---------- Xem ảnh toàn màn hình ---------- */
-  .lb{position:fixed;inset:0;z-index:60;display:none;touch-action:none;user-select:none;-webkit-user-select:none}
+  .lb{position:fixed;inset:0;z-index:300;display:none;touch-action:none;user-select:none;-webkit-user-select:none}
   .lb.open{display:block}
   .lb .bg{position:absolute;inset:0;background:#141a0e;opacity:0;transition:opacity .3s}
   .lb.open .bg{opacity:.96}
@@ -352,10 +363,10 @@
   <!-- ============ ALBUM ============ -->
   <section class="album" aria-roledescription="carousel" aria-label="Album ảnh cưới">
     <h2 class="title rv up">Album ảnh<svg viewBox="0 0 70 12" aria-hidden="true"><path d="M0 6h26M44 6h26" stroke="currentColor" stroke-width="1"/><use href="#leaf" x="29" y="-3" width="12" height="18" fill="currentColor"/></svg></h2>
-    <div class="car rv up">
-      <div class="track" id="track"></div>
-      <div class="bar" id="bar" aria-hidden="true"><i></i></div>
-      <div class="dots" id="dots" aria-label="Chọn ảnh"></div>
+    <div class="ring-wrap rv up">
+      <div class="ring" id="ring" tabindex="0" aria-label="Album ảnh. Dùng phím mũi tên để chuyển ảnh, Enter để phóng to"></div>
+      <button class="ring-nav p" id="rPrev" aria-label="Ảnh trước">‹</button>
+      <button class="ring-nav n" id="rNext" aria-label="Ảnh sau">›</button>
       <div class="count" id="count" aria-live="polite"><b>01</b> / 18</div>
       <div class="swipe-hint">Vuốt để xem · chạm vào ảnh để phóng to</div>
     </div>
@@ -514,12 +525,76 @@
     else if (wasPlaying && !userPaused) play();
   });
 
-  // ----- Mở thiệp -----
+  // ----- Mở thiệp: tiếng chuông, hoa bung, thiệp bay lên -----
+  // Âm thanh tạo bằng Web Audio (không cần file): một tiếng "vút" nhẹ rồi chuỗi chuông ngân.
+  function chime(){
+    try {
+      var C = window.AudioContext || window.webkitAudioContext; if (!C) return;
+      var ac = new C(), t = ac.currentTime + .02, out = ac.createGain();
+      out.gain.value = .22; out.connect(ac.destination);
+      // vút: tiếng ồn trắng lọc dải, quét lên
+      var len = Math.floor(ac.sampleRate * .7), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+      for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2);
+      var ns = ac.createBufferSource(); ns.buffer = buf;
+      var bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = .9;
+      bp.frequency.setValueAtTime(500, t); bp.frequency.exponentialRampToValueAtTime(3200, t + .55);
+      var ng = ac.createGain(); ng.gain.setValueAtTime(.0001, t); ng.gain.exponentialRampToValueAtTime(.28, t + .07); ng.gain.exponentialRampToValueAtTime(.0001, t + .65);
+      ns.connect(bp); bp.connect(ng); ng.connect(out); ns.start(t);
+      // chuông: Mi – Sol# – Si – Mi (cao), mỗi nốt có thêm hoạ âm để nghe như chuông nhỏ
+      [1318.5, 1661.2, 1975.5, 2637].forEach(function(f, k){
+        var st = t + .14 + k * .085;
+        [[1, .3, 1.5], [2.76, .07, .45], [5.4, .025, .2]].forEach(function(h){
+          var o = ac.createOscillator(), g = ac.createGain();
+          o.type = 'sine'; o.frequency.value = f * h[0];
+          g.gain.setValueAtTime(.0001, st); g.gain.exponentialRampToValueAtTime(h[1], st + .008); g.gain.exponentialRampToValueAtTime(.0001, st + h[2]);
+          o.connect(g); g.connect(out); o.start(st); o.stop(st + h[2] + .05);
+        });
+      });
+      setTimeout(function(){ ac.close && ac.close(); }, 2600);
+    } catch (err) {}
+  }
+  // Hoa và lá bung ra từ nút "Mở thiệp" rồi rơi xuống
+  function burst(x, y){
+    if (reduceOpen || !Element.prototype.animate) return;
+    var colors = ['#5e7d3a', '#8fa96a', '#b9c98f', '#dfe8cc', '#f4efd6'];
+    for (var i = 0; i < 30; i++) {
+      var el = document.createElement('span'), leaf = i % 3 !== 0, sz = leaf ? 10 + Math.random() * 10 : 12 + Math.random() * 8;
+      el.className = 'spark'; el.setAttribute('aria-hidden', 'true');
+      el.style.width = el.style.height = sz + 'px';
+      el.style.color = colors[i % colors.length];
+      el.innerHTML = leaf ? '<svg viewBox="0 0 24 24" fill="currentColor"><use href="#leaf"/></svg>' : '<span style="font-size:' + sz + 'px">✿</span>';
+      document.body.appendChild(el);
+      var ang = -Math.PI / 2 + (Math.random() - .5) * Math.PI * 1.5, v = 90 + Math.random() * 170;
+      var dx = Math.cos(ang) * v, dy = Math.sin(ang) * v, rot = (Math.random() - .5) * 720;
+      var a = el.animate([
+        { transform: 'translate(' + x + 'px,' + y + 'px) scale(.3) rotate(0deg)', opacity: 1 },
+        { transform: 'translate(' + (x + dx) + 'px,' + (y + dy) + 'px) scale(1) rotate(' + rot / 2 + 'deg)', opacity: 1, offset: .45 },
+        { transform: 'translate(' + (x + dx * 1.3) + 'px,' + (y + dy + 260 + Math.random() * 120) + 'px) scale(.8) rotate(' + rot + 'deg)', opacity: 0 }
+      ], { duration: 1500 + Math.random() * 700, easing: 'cubic-bezier(.2,.65,.35,1)', delay: Math.random() * 120 });
+      a.onfinish = (function(n){ return function(){ n.remove(); }; })(el);
+    }
+  }
+  var reduceOpen = matchMedia('(prefers-reduced-motion: reduce)').matches, opened = false;
   document.getElementById('openBtn').addEventListener('click', function(){
-    document.getElementById('cover').classList.add('gone');
+    if (opened) return; opened = true;
+    var cover = document.getElementById('cover'), r = this.getBoundingClientRect();
+    chime();
+    // nhạc nền phải bắt đầu ngay trong lúc khách bấm (điện thoại chặn nếu gọi trễ), rồi to dần
+    try { audio.volume = 0; } catch (err) {}
+    play();
+    var v = 0, fade = setInterval(function(){ v = Math.min(.7, v + .035); try { audio.volume = v; } catch (err) {} if (v >= .7) clearInterval(fade); }, 80);
+    if (reduceOpen) {
+      cover.classList.add('gone');
+    } else {
+      cover.classList.add('opening');
+      burst(r.left + r.width / 2, r.top + r.height / 2);
+      setTimeout(function(){ cover.classList.add('gone'); }, 1050);
+    }
     document.body.classList.remove('locked');
-    play(); reveal(); albumStart();
-    setTimeout(function(){ document.querySelectorAll('.petal').forEach(function(el){ el.remove(); }); }, 900);
+    setTimeout(function(){
+      reveal(); albumStart();
+      document.querySelectorAll('.petal').forEach(function(el){ el.remove(); });
+    }, reduceOpen ? 0 : 900);
   });
 
   // ----- Đếm ngược -----
@@ -542,111 +617,113 @@
     : '<div class="c">' + d + '</div>';
   document.getElementById('cal').innerHTML = html;
 
-  // ----- Album: băng chuyền có ảnh hai bên -----
+  // ----- Album: vòng xoay 3D -----
   var LQIP = {"01": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDqGcpsCKDlgDz0HrTWUDAkAL45xUyxqYzuHzY69xWfBFLbwrFLI0zrkF2OS3PH6VRJcj+6Kjk+9RRSGf/Z", "04": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDc1S7aGxmlQAJCpZz3x7VHYk3FlBNIPmkQMcjHWsi514LdXFiyAwmJlk9W47HtTrTXxDbrG8YfaMK2TyO3apuiuVtaDLONDrjEouTEcnHXitTRI0WzcKigea3Qe9FFR1Bbn//Z", "09": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDVOoyw3bWsURIVFIyvBJPb8KstErMTislfEi2+pvCIxtCkuxxngcAGoovEaxJtljLkkkMGAyO1TcvlbWhn2Kq3ihgyggwnII68VNo8aNbSFkU4lYciiio6jR//2Q==", "03": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDcvT5MAkZ1iiyVeRsYTjg/nVW6ePzR8wPyjkd/emahqFrNbPFMVaMkfuyuefeqjXQOOFPHHSs2tCkZ7ovnr8o6elV7tV3pwPuenuaKKoD/2Q==", "06": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDevLxbGza4KF0TlwvJA9QO9N027i1K0W4jBxkqdy4OR14q1DAj2zRTKGDgqw9iORVTTrE6dZR2qfMEz8397JJzVEl2E/KPrTm60UUhn//Z", "10": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDYvb6Rbt7dImIRVI44bJ6D8qn8pWGcVlP4hMWozRLGCqqS57njgA1UtfEnkxbJk3kE4bJ6ds8dam5XK7F+xijN5vKLvMZBbHPSqEaLGZAihRvPAGKKKzW4dT//2Q==", "07": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDphJEHMWcMqhiMdj/+qokVJ0EgXGe2QcflUGrwltCvJEH75Y2KkdQQO1UvCq+VoMBbO5yzNk98kf0piNyLmEg8gg5z3rntMJGnQAHAwf5miigZ/9k=", "14": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDeupGjtWiiA3BckkZwKoafMt9ZRXAQrvHQ/XFV38SRW2ptGyZAU72PUewqPTtXt4LRYSgATIGD1HUH9akrldihCqnxBkqDmI5yOvBre0KKMWDARqB5rdveiio6jW5//9k=", "11": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDZ1cXXkqLa4a2U4XeibjuJ4/D/ABq8sRCIJcM4UBmxjJ9aR4ZXztkwhXIGP4hWXqHiWzs7treaCcyIAGwoA9ePWqQnsbMBJiGTWTqcMUlwrPGjHYOSoPc0UUCP/9k=", "15": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDfui6LlE3AnBI6j3xVUjhfMILYGcDFNudRWW0kjjuYwGVm3I3K8cVgQ6hKsKJmRyg2k43c/WsmWkYcLs1upLEna3JP0qtJLIr4WRh34NFFNFM//9k=", "12": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDVmnVBKqJueM5IJwCM880SLtbDrtPoan1K5tNIia7uCCyjoBy3sKzJdTtrphPDJlJBkZFZtWQ07kPjXmzjB5HmpWBZEixhwf4f6miinMIn/9k=", "16": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDcn3ebHGhUGTPJPTHOfpVSX5XwcZHWq+sagJNPaJZUVmB2tG/PXp/Os1dSGxd7MflGCQeeOtZMtJnOOzfZ4vmPX1+lQs7E8sePeiikiz//2Q==", "08": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDdvLz7E6hox5bDAb/a7D6VNE0N1Ck8ZDJIoZSO4pNRsjfaRc2qkB5kOCeOe1Ms4ls7KC2BH7pAnHsKYmX1/wBUv0FUZvv/AIUUUDP/2Q==", "17": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDfuS4KrEFLOSBk+nNVZW2uQeveodaunfTnRQY3Kko6n5u3SspdTXYoaTJCgEnqeOtZOxaTMMyO0UW52OcHk/WobiRx5YDsBsHQ0UUkWz//2Q==", "18": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDcuEk2IYiAAw3D1HeljtFlXc7YPpjNUby/VYI1keI4O5CGzg9O1Yk2sXu5fss0iJjkIDgnP0rPQqzMdiRboQTnj+VQCeZOEldR6BiKKKmJoz//2Q==", "19": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDYkWQ3PloAsTADOOdxPFRNbtEfLmcSSLwz4xu96lvryFrJTEitJG3mKWzjcOh4rMg1RpoUluB+9cZbaOM+1ZOxSTE1glXjCnAJAIH1rlZJHDYDsB7GiiiW5Udj/9k=", "13": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDfuLiO1tjK6kqoydoyQPWolaOeNJVHDqCKtQxbhiUK6EYIIzkVH9l8sCOIBUQbVA7DtTAkhJ2jmpTRRUjP/9k=", "20": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAASAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDcnWTzUCYEX8Zxz7VVMezCM5kK8b2GCadd6g6WMisyxFx8jBufb+tYSarIsUYLl22/Mx5JPqayZaTMTcRboQT2/lUAnmQBVldR6BiKKKUSpH//2Q=="};
-  var N = PHOTOS.length, AUTOPLAY_MS = 4500;
-  var track = document.getElementById('track'), dotsEl = document.getElementById('dots');
-  var bar = document.getElementById('bar'), countEl = document.getElementById('count');
+  var N = PHOTOS.length, AUTOPLAY_MS = 3800;
+  var ring = document.getElementById('ring'), countEl = document.getElementById('count');
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var lbOpen = false;
+  var lbOpen = false, cur = 0;
   function two(n){ return (n < 10 ? '0' : '') + n; }
 
-  track.innerHTML = PHOTOS.map(function(p, i){
-    return '<button class="slide" data-i="' + i + '" aria-label="Ảnh ' + (i + 1) + ' trên ' + N + '">' +
-      '<span class="fr" style="background-image:url(' + LQIP[p] + ')">' +
-      '<img src="images/m/' + p + '.jpg" alt="" ' + (i < 3 ? '' : 'loading="lazy" ') + 'decoding="async" draggable="false">' +
-      '<span class="zoomhint" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 3a7 7 0 1 0 4.3 12.5l5.1 5.1 1.4-1.4-5.1-5.1A7 7 0 0 0 10 3zm0 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm-1 2v2H7v2h2v2h2v-2h2V9h-2V7z"/></svg></span>' +
-      '</span></button>';
+  ring.innerHTML = PHOTOS.map(function(p, i){
+    return '<div class="c3" data-i="' + i + '" style="background-image:url(' + LQIP[p] + ')">' +
+      '<img data-src="images/m/' + p + '.jpg" alt="Ảnh cưới ' + (i + 1) + '" decoding="async" draggable="false"></div>';
   }).join('');
-  dotsEl.innerHTML = PHOTOS.map(function(p, i){
-    return '<button data-i="' + i + '" aria-label="Xem ảnh ' + (i + 1) + '"><svg viewBox="0 0 24 24"><use href="#leaf"/></svg></button>';
-  }).join('');
-  var slides = [].slice.call(track.children), dots = [].slice.call(dotsEl.children);
-  slides.forEach(function(s){
-    var img = s.querySelector('img');
-    function ok(){ img.classList.add('ok'); }
-    if (img.complete && img.naturalWidth) ok(); else img.addEventListener('load', ok);
-  });
-
-  // Hiệu ứng 3D theo vị trí cuộn; chỉ tính lại các ảnh gần giữa cho nhẹ máy
-  var cur = -1, raf = 0;
-  function layout(){
-    raf = 0;
-    var mid = track.scrollLeft + track.clientWidth / 2, best = 0, bestA = 1e9;
-    for (var i = 0; i < N; i++) {
-      var s = slides[i], d = (s.offsetLeft + s.offsetWidth / 2 - mid) / s.offsetWidth, a = Math.abs(d);
-      if (a < bestA) { bestA = a; best = i; }
-      if (a > 2.2) {
-        if (s._v !== 0) { s.style.transform = 'scale(.8)'; s.style.opacity = '.3'; s._v = 0; }
-        continue;
-      }
-      var k = Math.min(a, 1.3);
-      s.style.transform = reduce ? 'scale(' + (1 - .12 * k).toFixed(3) + ')'
-        : 'perspective(900px) rotateY(' + (-d * 16).toFixed(2) + 'deg) scale(' + (1 - .15 * k).toFixed(3) + ')';
-      s.style.opacity = (1 - .5 * k).toFixed(3);
-      s.style.zIndex = 10 - Math.round(a * 3);
-      s._v = 1;
+  var slides = [].slice.call(ring.children);
+  function load(i){
+    var im = slides[i].querySelector('img');
+    if (im.dataset.src) {
+      im.addEventListener('load', function(){ im.classList.add('ok'); });
+      im.src = im.dataset.src; delete im.dataset.src;
     }
-    if (best !== cur) setActive(best);
   }
-  function schedule(){ if (!raf) raf = requestAnimationFrame(layout); }
-  track.addEventListener('scroll', schedule, { passive: true });
-  addEventListener('resize', schedule);
-
+  // khoảng cách vòng tròn từ ảnh i tới vị trí p (âm: bên trái, dương: bên phải)
+  function off(i, p){ var d = ((i - p) % N + N) % N; return d > N / 2 ? d - N : d; }
+  function render(p){
+    for (var i = 0; i < N; i++) {
+      var x = off(i, p), a = Math.abs(x), s, o, c = slides[i];
+      s = a <= 1 ? 1 - .15 * a : a <= 2 ? .85 - .15 * (a - 1) : .7;
+      o = a <= 1 ? 1 - .25 * a : a <= 2 ? .75 - .25 * (a - 1) : Math.max(.3, .5 - .2 * (a - 2));
+      if (a > 4.2) o = 0;
+      c.style.transform = reduce
+        ? 'translateX(' + (60 * x) + '%) scale(' + s + ')'
+        : 'translateX(' + (60 * x).toFixed(2) + '%) translateZ(' + (-150 * a).toFixed(1) + 'px) rotateY(' + (45 * x).toFixed(2) + 'deg) scale(' + s.toFixed(3) + ')';
+      c.style.opacity = o.toFixed(3);
+      c.style.zIndex = 100 - Math.round(a * 2);
+      c.style.visibility = a > 4.2 ? 'hidden' : 'visible';
+      if (a <= 2.6) load(i);
+    }
+  }
   function setActive(i){
-    if (cur >= 0) { slides[cur].classList.remove('on'); dots[cur].classList.remove('on'); slides[cur].removeAttribute('aria-current'); }
-    cur = i;
-    slides[i].classList.add('on'); dots[i].classList.add('on'); slides[i].setAttribute('aria-current', 'true');
-    countEl.innerHTML = '<b>' + two(i + 1) + '</b> / ' + two(N);
-    [i + 1, i + 2].forEach(function(j){                       // tải trước 2 ảnh kế tiếp
-      if (j < N) { var im = slides[j].querySelector('img'); if (im.getAttribute('loading') === 'lazy') im.setAttribute('loading', 'eager'); }
-    });
+    slides[cur].classList.remove('on');
+    cur = (i + N) % N;
+    slides[cur].classList.add('on');
+    countEl.innerHTML = '<b>' + two(cur + 1) + '</b> / ' + two(N);
+    render(cur);
     restartTimer();
   }
-  function goTo(i, instant){
-    i = (i + N) % N;
-    var s = slides[i];
-    track.scrollTo({ left: s.offsetLeft - (track.clientWidth - s.offsetWidth) / 2, behavior: instant || reduce ? 'auto' : 'smooth' });
-  }
-  function next(){
-    if (cur === N - 1) {             // hết album: mờ đi rồi về ảnh đầu, không lướt ngược qua cả 18 ảnh
-      track.classList.add('jump');
-      setTimeout(function(){ goTo(0, true); track.classList.remove('jump'); }, 350);
-    } else goTo(cur + 1);
-  }
+  function goTo(i){ setActive(i); }
+  function next(){ goTo(cur + 1); }
+  setActive(0);
 
-  // Tự chạy; dừng khi khách chạm, khi album ra khỏi màn hình, khi đang xem ảnh lớn, khi chuyển ứng dụng
+  // Vuốt để xoay vòng (ảnh xoay theo ngón tay), chạm ảnh giữa để phóng to, chạm ảnh bên để xoay tới
+  var drag = null;
+  ring.addEventListener('pointerdown', function(e){
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    drag = { x0: e.clientX, y0: e.clientY, id: e.pointerId, w: slides[cur].offsetWidth * .6, moved: false, t0: Date.now() };
+    hold();
+  });
+  ring.addEventListener('pointermove', function(e){
+    if (!drag || e.pointerId !== drag.id) return;
+    var dx = e.clientX - drag.x0, dy = e.clientY - drag.y0;
+    if (!drag.moved) {
+      if (Math.abs(dx) < 8) return;
+      if (Math.abs(dy) > Math.abs(dx)) { drag = null; return; }   // khách đang cuộn trang
+      drag.moved = true; ring.classList.add('drag');
+      try { ring.setPointerCapture(e.pointerId); } catch (err) {}
+    }
+    render(cur - dx / drag.w);
+  });
+  function endDrag(e){
+    if (!drag || e.pointerId !== drag.id) return;
+    var d = drag; drag = null;
+    ring.classList.remove('drag');
+    if (!d.moved) {
+      if (e.type === 'pointercancel') return;
+      var c = e.target.closest('.c3'); if (!c) return;
+      var i = +c.dataset.i;
+      if (i === cur) openLb(i, c.querySelector('img')); else goTo(i);
+      return;
+    }
+    var dx = e.clientX - d.x0, f = dx / d.w, fast = Math.abs(dx) > 25 && Date.now() - d.t0 < 260;
+    var steps = Math.round(f);
+    if (!steps && (Math.abs(dx) > 40 || fast)) steps = dx < 0 ? -1 : 1;
+    goTo(cur - steps);
+  }
+  ring.addEventListener('pointerup', endDrag);
+  ring.addEventListener('pointercancel', function(e){ if (drag && drag.moved) { ring.classList.remove('drag'); drag = null; render(cur); } else endDrag(e); });
+  ring.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight') { e.preventDefault(); hold(); next(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); hold(); goTo(cur - 1); }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(cur, slides[cur].querySelector('img')); }
+  });
+  document.getElementById('rPrev').onclick = function(){ hold(); goTo(cur - 1); };
+  document.getElementById('rNext').onclick = function(){ hold(); next(); };
+
+  // Tự xoay; dừng khi khách chạm, khi album ra khỏi màn hình, khi xem ảnh lớn, khi chuyển ứng dụng
   var timer = 0, started = false, inView = false, holdUntil = 0;
   function restartTimer(){
-    clearTimeout(timer); bar.classList.remove('run');
+    clearTimeout(timer);
     if (!started || reduce || !inView || lbOpen || document.hidden) return;
     var wait = holdUntil - Date.now();
-    if (wait > 0) { timer = setTimeout(restartTimer, wait); return; }
-    void bar.offsetWidth;
-    bar.style.setProperty('--dur', AUTOPLAY_MS + 'ms'); bar.classList.add('run');
-    timer = setTimeout(next, AUTOPLAY_MS);
+    timer = wait > 0 ? setTimeout(restartTimer, wait) : setTimeout(next, AUTOPLAY_MS);
   }
   function hold(){ holdUntil = Date.now() + 7000; restartTimer(); }
-  ['pointerdown', 'touchstart', 'wheel', 'keydown'].forEach(function(ev){ track.addEventListener(ev, hold, { passive: true }); });
-  dotsEl.addEventListener('pointerdown', hold, { passive: true });
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function(es){ inView = es[0].isIntersecting; restartTimer(); }, { threshold: 0.5 }).observe(track);
+    new IntersectionObserver(function(es){ inView = es[0].isIntersecting; restartTimer(); }, { threshold: 0.5 }).observe(ring);
   } else inView = true;
   document.addEventListener('visibilitychange', restartTimer);
   function albumStart(){ started = true; restartTimer(); }
-  if (reduce) bar.style.display = 'none';
-
-  dotsEl.addEventListener('click', function(e){ var b = e.target.closest('button'); if (b) goTo(+b.dataset.i); });
-  track.addEventListener('click', function(e){
-    var s = e.target.closest('.slide'); if (!s) return;
-    var i = +s.dataset.i;
-    if (i !== cur) goTo(i); else openLb(i, s.querySelector('img'));
-  });
-  track.addEventListener('keydown', function(e){
-    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(cur + 1); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(cur - 1); }
-  });
-  requestAnimationFrame(function(){ goTo(0, true); layout(); });
 
   // ----- Xem ảnh toàn màn hình: vuốt ngang, vuốt xuống để đóng, chụm 2 ngón / chạm 2 lần để phóng -----
   var lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg'), lbBg = document.getElementById('lbBg');
